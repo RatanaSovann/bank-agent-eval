@@ -72,4 +72,4 @@ In active development. The harness is not yet runnable end to end.
 
 ## Licence
 
-Code: to be confirmed before first release. EvalBench is Apache 2.0.
+[Apache License 2.0](LICENSE).
