@@ -31,7 +31,8 @@ def page_text(html: str) -> str:
     soup = BeautifulSoup(html, "html.parser")
     for tag in soup(["script", "style", "nav", "footer", "header", "noscript"]):
         tag.decompose()
-    main = soup.find("main") or soup.body or soup
+    # CommBank pages have no <main> tag; their "skip to main content" link targets this id.
+    main = soup.find(id="skipmaincontent") or soup.find("main") or soup.body or soup
     lines = [line.strip() for line in main.get_text("\n").splitlines()]
     return "\n".join(line for line in lines if line)
 
@@ -48,8 +49,8 @@ def main() -> None:
     session = requests.Session()
     session.headers["User-Agent"] = USER_AGENT
 
-    rows = list(csv.DictReader(PAGES_CSV.open()))
-    with LOG.open("w", newline="") as log_file:
+    rows = list(csv.DictReader(PAGES_CSV.open(encoding="utf-8")))
+    with LOG.open("w", newline="", encoding="utf-8") as log_file:
         log = csv.writer(log_file)
         log.writerow(["page_id", "url", "status", "fetched_at", "text_file", "sha256", "note"])
         for row in rows:
