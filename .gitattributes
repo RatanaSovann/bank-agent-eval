@@ -1,0 +1,2 @@
+# Keep LF everywhere: manifest hashes and bash scripts depend on it
+* text=auto eol=lf

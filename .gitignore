@@ -1,0 +1,9 @@
+.env
+data/raw/
+results/
+__pycache__/
+.venv/
+
+# Local working notes (not part of the published project)
+CLAUDE.md
+weeks/
