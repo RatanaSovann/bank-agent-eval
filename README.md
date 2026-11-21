@@ -9,7 +9,7 @@ It scores the full path the agent takes (every turn and every tool call), not ju
 ## How it works
 
 - **Agent under test:** a plain-Python help agent on a small, low-cost model. It answers from public help pages and has two mock tools: `verify_identity` and `get_account_summary`. The second is allowed only after a successful verification.
-- **Orchestration:** Google's open-source [EvalBench](https://github.com/GoogleCloudPlatform/evalbench) (Apache 2.0) runs the conversations with a simulated customer.
+- **Harness:** a small plain-Python loop runs each scenario as a conversation between the agent and a simulated customer that follows a written conversation plan, and records every turn and tool call.
 - **Compliance layer (this repo):** code-based checks first, then LLM judges with binary rubrics. Results feed severity tiers, a release gate, segment fairness checks and an audit trail.
 
 ### Release gate
@@ -28,7 +28,7 @@ Severity definitions are in [`docs/risk_matrix.md`](docs/risk_matrix.md).
 agent/        help agent: tool loop and prompts
 mock_bank/    mock tools over synthetic customers
 scenarios/    customer journeys, tagged by risk tier and segment
-configs/      EvalBench run configs
+configs/      run configs (models, scenario sets)
 scorers/      compliance checks
 judge/        LLM judge rubrics and validation
 compliance/   severity gate, segment statistics, A/B testing
@@ -40,7 +40,7 @@ docs/         risk matrix, decision log
 
 ## Setup
 
-Requires Python 3.10+ and [uv](https://docs.astral.sh/uv/). EvalBench runs need bash (Linux, macOS or WSL).
+Requires Python 3.10+ and [uv](https://docs.astral.sh/uv/). Runs on Windows, macOS and Linux.
 
 ```bash
 uv sync                           # install pinned dependencies
